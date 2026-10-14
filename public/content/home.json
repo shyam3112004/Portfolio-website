@@ -1,0 +1,156 @@
+{
+  "slug": "home",
+  "title": "Shyam — Full-Stack Web Developer",
+  "profile": {
+    "name": "Shyam",
+    "role": "Full-Stack Web Developer",
+    "location": "Bengaluru, India",
+    "availableForWork": true,
+    "resumeUrl": "/resume.pdf",
+    "socials": {
+      "github": "https://github.com",
+      "linkedin": "https://linkedin.com",
+      "email": "shyam@example.com"
+    }
+  },
+  "scenes": [
+    {
+      "id": "hero-scene",
+      "scrollLengthVh": 300,
+      "frames": {
+        "desktop": {
+          "basePath": "/frames/desktop",
+          "count": 120,
+          "ext": "webp"
+        },
+        "mobile": {
+          "basePath": "/frames/mobile",
+          "count": 90,
+          "ext": "webp"
+        }
+      },
+      "posterUrl": "/posters/portrait.jpg",
+      "overlays": [
+        {
+          "id": "intro-1",
+          "start": 0.0,
+          "end": 0.22,
+          "heading": "Hi, I'm Shyam",
+          "body": "Building high-performance interactive web experiences.",
+          "align": "center"
+        },
+        {
+          "id": "intro-2",
+          "start": 0.28,
+          "end": 0.48,
+          "heading": "Fast & Beautiful Web Apps",
+          "body": "Bridging the gap between engineering rigor and bespoke motion design.",
+          "align": "left"
+        },
+        {
+          "id": "intro-3",
+          "start": 0.54,
+          "end": 0.74,
+          "heading": "React · Node · Postgres",
+          "body": "Full-stack systems architected for scale, polish, and speed.",
+          "align": "right"
+        },
+        {
+          "id": "intro-4",
+          "start": 0.80,
+          "end": 1.0,
+          "heading": "Let's Build Together",
+          "body": "Available for select freelance contracts and full-time opportunities.",
+          "align": "center",
+          "cta": {
+            "label": "Explore Work",
+            "href": "#work"
+          }
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "slug": "fintech-realtime-dashboard",
+      "title": "Apex Financial",
+      "summary": "Sub-millisecond market monitoring terminal with WebSockets and custom WebGL charting.",
+      "year": 2026,
+      "tags": ["React", "TypeScript", "WebGL", "Node.js"],
+      "coverUrl": "/posters/og-image.jpg",
+      "liveUrl": "#",
+      "repoUrl": "https://github.com",
+      "featured": true,
+      "caseStudy": {
+        "problem": "Financial analysts needed instant order-book visual feedback without UI thread locks during heavy trading volatility.",
+        "role": "Lead Frontend Architect",
+        "solution": "Engineered offscreen canvas worker rendering paired with binary WebSocket streaming buffers.",
+        "outcome": "Achieved 60fps frame rates under 100k events/sec with zero jank."
+      }
+    },
+    {
+      "slug": "neural-canvas-studio",
+      "title": "Neural Canvas",
+      "summary": "Collaborative AI visual canvas platform supporting multi-agent workflow pipelines.",
+      "year": 2025,
+      "tags": ["Next.js", "PostgreSQL", "Tailwind", "WebRTC"],
+      "coverUrl": "/posters/portrait.jpg",
+      "liveUrl": "#",
+      "repoUrl": "https://github.com",
+      "featured": true,
+      "caseStudy": {
+        "problem": "Creative agencies struggled to coordinate AI generation workflows across distributed teams.",
+        "role": "Full-Stack Engineer",
+        "solution": "Built CRDT-based synchronized state layer with optimistic mutation rollbacks.",
+        "outcome": "Adopted by 40+ studios in private beta with >99.9% sync consistency."
+      }
+    },
+    {
+      "slug": "cloud-infra-orchestrator",
+      "title": "Pulse Ops",
+      "summary": "Distributed microservice topology visualizer and automatic anomaly detector.",
+      "year": 2025,
+      "tags": ["TypeScript", "Go", "Docker", "Grafana"],
+      "coverUrl": "/posters/og-image.jpg",
+      "liveUrl": "#",
+      "repoUrl": "https://github.com",
+      "featured": false,
+      "caseStudy": {
+        "problem": "Identifying cascaded microservice latencies required cross-referencing dozens of dashboards.",
+        "role": "Systems Engineer",
+        "solution": "Unified telemetry streams into an interactive directed graph with live threshold highlighting.",
+        "outcome": "Reduced Mean-Time-To-Resolution (MTTR) by 42%."
+      }
+    }
+  ],
+  "skills": [
+    {
+      "group": "Frontend",
+      "items": ["JavaScript (ES2022+)", "TypeScript", "React / Next.js", "GSAP & ScrollTrigger", "Canvas 2D / WebGL", "Tailwind CSS"]
+    },
+    {
+      "group": "Backend",
+      "items": ["Node.js", "PostgreSQL & Supabase", "REST & GraphQL APIs", "Redis", "Microservices"]
+    },
+    {
+      "group": "Tools & Quality",
+      "items": ["Git / GitHub Actions", "Vercel", "Docker", "Playwright & Vitest", "Figma", "Lighthouse CI"]
+    }
+  ],
+  "experience": [
+    {
+      "company": "High-Growth Tech Co",
+      "role": "Senior Frontend / Full-Stack Developer",
+      "start": "2024",
+      "end": "Present",
+      "summary": "Leading core product web engineering, building interactive client dashboards, and driving 95+ Lighthouse scores."
+    },
+    {
+      "company": "Digital Craft Agency",
+      "role": "Creative Technologist & UI Engineer",
+      "start": "2022",
+      "end": "2024",
+      "summary": "Delivered award-winning interactive websites, scroll-driven visual narratives, and design systems for enterprise brands."
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selected Work &amp; Case Studies — Shyam Kumar S</title>
+  <meta name="description" content="Explore in-depth engineering case studies and selected full-stack projects by Shyam Kumar S.">
+  <meta name="author" content="Shyam Kumar S">
+  <link rel="canonical" href="https://shyam.dev/work/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Selected Work &amp; Case Studies — Shyam Kumar S">
+  <meta property="og:description" content="High-performance web apps, real-time trading terminals, and multiplayer creative workspaces.">
+  <meta property="og:image" content="/posters/og-image.jpg">
+  <meta property="og:url" content="https://shyam.dev/work/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Selected Work &amp; Case Studies — Shyam Kumar S">
+  <meta name="twitter:description" content="High-performance web apps, real-time trading terminals, and multiplayer creative workspaces.">
+  <meta name="twitter:image" content="/posters/og-image.jpg">
+
+  <link rel="icon" href="/posters/portrait.webp" type="image/webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+
+  <style>
+    .work-page-wrap { padding-top: 100px; min-height: 80vh; }
+    .work-container { max-width: var(--max-width); margin: 0 auto; padding: 40px 24px 100px; }
+    .work-header { margin-bottom: 48px; }
+    .work-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 16px; letter-spacing: -0.02em; }
+    .work-desc { font-size: 1.125rem; color: var(--fg-muted); max-width: 640px; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header scrolled" id="main-header">
+    <a href="/" class="logo">SHYAM KUMAR S</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/#work" class="nav-link">&larr; Portfolio Home</a></li>
+        <li><a href="/#skills" class="nav-link">Skills</a></li>
+        <li><a href="/#contact" class="nav-link">Contact</a></li>
+        <li><a href="/admin.html" class="nav-link" style="font-size:0.8125rem; opacity:0.8;">Admin</a></li>
+        <li><a href="/resume.pdf" target="_blank" class="resume-btn">Resume</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="work-page-wrap">
+    <div class="work-container">
+      <div class="work-header">
+        <span class="section-label">Archive</span>
+        <h1 class="work-title">Selected Engineering Work</h1>
+        <p class="work-desc">In-depth technical case studies detailing architecture decisions, performance benchmarks, and production outcomes.</p>
+      </div>
+
+      <div id="work-filter-chips" class="filter-chips"></div>
+      <div id="work-projects-grid" class="projects-grid"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Shyam Kumar S. Crafted with semantic HTML, GSAP, and WebGL.</p>
+  </footer>
+
+  <script type="module">
+    import { loadContent } from '/src/contentLoader.js';
+    import { initProjects } from '/src/projects.js';
+
+    async function run() {
+      try {
+        const config = await loadContent('home');
+        const gridEl = document.getElementById('work-projects-grid');
+        const filterEl = document.getElementById('work-filter-chips');
+        if (config && config.projects) {
+          initProjects(config.projects, gridEl, filterEl);
+        }
+      } catch (err) {
+        console.error('Failed to load projects archive:', err);
+      }
+    }
+
+    run();
+  </script>
+</body>
+</html>

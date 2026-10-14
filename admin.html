@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Shyam Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F2F2F0;
+      --surface: #FFFFFF;
+      --fg: #0B0B0C;
+      --fg-muted: #5F6368;
+      --line: #E2E2DF;
+      --accent: #3355FF;
+      --accent-hover: #2040E0;
+      --danger: #D93025;
+      --success: #188038;
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      padding: 36px 20px 60px;
+    }
+    .admin-container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .admin-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: var(--surface); color: var(--fg); border: 1px solid var(--line); }
+    .btn-secondary:hover { border-color: var(--fg); }
+    .btn-danger { background: rgba(217, 48, 37, 0.08); color: var(--danger); border: 1px solid rgba(217, 48, 37, 0.2); }
+    .btn-danger:hover { background: var(--danger); color: #fff; }
+    
+    /* Tabs */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+    .tab-btn {
+      padding: 10px 24px;
+      border-radius: 999px;
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--fg-muted);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .tab-btn:hover { color: var(--fg); }
+    .tab-btn.active {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Form */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full { grid-column: span 2; }
+    .form-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--fg-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .form-input, .form-textarea {
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #FBFBFA;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      color: var(--fg);
+    }
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: #fff;
+    }
+    .form-textarea { resize: vertical; min-height: 80px; }
+
+    /* Image Upload Box */
+    .upload-box {
+      border: 2px dashed var(--line);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      background: #F9F9F8;
+      transition: 0.2s ease;
+    }
+    .upload-box:hover { border-color: var(--accent); background: #fff; }
+    .preview-thumb {
+      max-height: 140px;
+      border-radius: 8px;
+      margin-top: 12px;
+      display: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Projects List */
+    .project-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      gap: 16px;
+      background: #FAFAFA;
+    }
+    .project-row-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+    }
+    .project-row-img {
+      width: 72px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: #EAEAE8;
+    }
+
+    /* Skills Group */
+    .skill-group-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: #FAFAFA;
+    }
+    .skill-tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .skill-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+    .skill-del-btn {
+      background: none;
+      border: none;
+      color: var(--fg-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .skill-del-btn:hover { color: var(--danger); }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0B0B0C;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9375rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 0.3s ease;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <header class="admin-header">
+      <div>
+        <h1 class="admin-title">Portfolio Admin</h1>
+        <p style="color: var(--fg-muted); font-size: 0.9375rem;">Manage finished projects and edit overall skills</p>
+      </div>
+      <div class="btn-group">
+        <a href="/" class="btn btn-secondary">&larr; Back to Portfolio</a>
+        <button type="button" class="btn btn-primary" onclick="saveAllData()">Save &amp; Publish</button>
+        <button type="button" class="btn btn-secondary" onclick="exportJson()">Download JSON</button>
+        <button type="button" class="btn btn-danger" onclick="resetToDefaults()">Reset</button>
+      </div>
+    </header>
+
+    <nav class="tabs-nav">
+      <button type="button" class="tab-btn active" onclick="switchTab('tab-projects', this)">Projects (Upload &amp; Manage)</button>
+      <button type="button" class="tab-btn" onclick="switchTab('tab-skills', this)">Skills (Edit Overall)</button>
+    </nav>
+
+    <!-- TAB 1: PROJECTS -->
+    <section id="tab-projects" class="tab-pane active">
+      <div class="card">
+        <h2 class="card-title">Upload / Add New Project</h2>
+        <form id="new-project-form" onsubmit="addNewProject(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Project Title *</label>
+              <input type="text" id="proj-title" class="form-input" placeholder="e.g. Apex Financial" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Year *</label>
+              <input type="number" id="proj-year" class="form-input" value="2026" required>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Project Summary *</label>
+              <textarea id="proj-summary" class="form-textarea" placeholder="Sub-millisecond market monitoring terminal with WebSockets and custom WebGL charting." required></textarea>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Tech Tags (comma separated) *</label>
+              <input type="text" id="proj-tags" class="form-input" placeholder="React, TypeScript, WebGL, Node.js" required>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Project Cover Image *</label>
+              <div class="upload-box" onclick="document.getElementById('proj-cover-file').click()">
+                <input type="file" id="proj-cover-file" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+                <div id="upload-prompt">
+                  <p style="font-weight: 600;">Click to upload cover photo</p>
+                  <p style="font-size: 0.8125rem; color: var(--fg-muted);">Supports PNG, JPG, WebP</p>
+                </div>
+                <img id="proj-cover-preview" class="preview-thumb" alt="Cover preview">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Live URL</label>
+              <input type="url" id="proj-live" class="form-input" placeholder="https://example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Code Repository URL</label>
+              <input type="url" id="proj-repo" class="form-input" placeholder="https://github.com/...">
+            </div>
+            <div class="form-group full" style="display: flex; flex-direction: row; align-items: center; gap: 8px;">
+              <input type="checkbox" id="proj-featured" style="width: 18px; height: 18px;">
+              <label for="proj-featured" style="font-size: 0.9375rem; font-weight: 500; cursor: pointer;">Feature this project at the top of the portfolio</label>
+            </div>
+          </div>
+          <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn btn-primary">+ Add to Portfolio</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Published Projects (<span id="proj-count">0</span>)</h2>
+        <div id="projects-list-container"></div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SKILLS OVERALL -->
+    <section id="tab-skills" class="tab-pane">
+      <div class="card">
+        <div class="card-title">
+          <span>Manage Skill Categories &amp; Items</span>
+          <button type="button" class="btn btn-secondary" onclick="addNewSkillGroup()">+ Add Category</button>
+        </div>
+        <p style="color: var(--fg-muted); font-size: 0.875rem; margin-bottom: 20px;">
+          Add or remove technologies across Frontend, Backend, Tools, and any custom category.
+        </p>
+        <div id="skills-editor-container"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast">Changes saved &amp; published!</div>
+
+  <script type="module">
+    import { loadContent, saveLocalContent, clearLocalContent } from '/src/contentLoader.js';
+    let globalConfig = null;
+    let uploadedCoverDataUrl = '';
+
+    window.switchTab = (tabId, btn) => {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    };
+
+    window.handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedCoverDataUrl = e.target.result;
+        const preview = document.getElementById('proj-cover-preview');
+        preview.src = uploadedCoverDataUrl;
+        preview.style.display = 'inline-block';
+        document.getElementById('upload-prompt').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    };
+
+    async function init() {
+      try {
+        globalConfig = await loadContent('home');
+        renderProjects();
+        renderSkills();
+      } catch (err) {
+        console.error('Failed to initialize admin dashboard:', err);
+      }
+    }
+
+    function renderProjects() {
+      const container = document.getElementById('projects-list-container');
+      const countEl = document.getElementById('proj-count');
+      if (!globalConfig || !globalConfig.projects) return;
+      countEl.textContent = globalConfig.projects.length;
+      if (!globalConfig.projects.length) {
+        container.innerHTML = '<p style="color: var(--fg-muted);">No projects currently uploaded.</p>';
+        return;
+      }
+      container.innerHTML = globalConfig.projects.map((p, idx) => `
+        <div class="project-row">
+          <div class="project-row-info">
+            <img class="project-row-img" src="${p.coverUrl}" alt="${p.title}" onerror="this.style.display='none'">
+            <div>
+              <div style="font-weight: 700; font-size: 1rem;">
+                ${p.title} <span style="color: var(--fg-muted); font-size: 0.8125rem; font-weight: normal;">(${p.year})</span>
+                ${p.featured ? '<span style="background: #0B0B0C; color:#fff; font-size:0.6875rem; padding: 2px 8px; border-radius: 999px; margin-left: 6px;">Featured</span>' : ''}
+              </div>
+              <div style="font-size: 0.8125rem; color: var(--fg-muted); margin-top: 2px;">
+                ${(p.tags || []).join(' • ')}
+              </div>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary" onclick="toggleFeatured(${idx})">${p.featured ? 'Unfeature' : 'Feature'}</button>
+            <button type="button" class="btn btn-danger" onclick="deleteProject(${idx})">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.addNewProject = (event) => {
+      event.preventDefault();
+      const title = document.getElementById('proj-title').value.trim();
+      const year = parseInt(document.getElementById('proj-year').value, 10) || 2026;
+      const summary = document.getElementById('proj-summary').value.trim();
+      const tags = document.getElementById('proj-tags').value.split(',').map(t => t.trim()).filter(Boolean);
+      const liveUrl = document.getElementById('proj-live').value.trim() || undefined;
+      const repoUrl = document.getElementById('proj-repo').value.trim() || undefined;
+      const featured = document.getElementById('proj-featured').checked;
+      const coverUrl = uploadedCoverDataUrl || '/posters/og-image.jpg';
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const newProj = {
+        slug: slug || ('project-' + Date.now()),
+        title,
+        year,
+        summary,
+        tags,
+        coverUrl,
+        liveUrl,
+        repoUrl,
+        featured,
+        caseStudy: {
+          problem: summary,
+          role: 'Full-Stack Developer & Designer',
+          solution: 'Engineered high-performance web solution.',
+          outcome: 'Successfully delivered and deployed.',
+          images: [coverUrl]
+        }
+      };
+      if (featured) {
+        globalConfig.projects.unshift(newProj);
+      } else {
+        globalConfig.projects.push(newProj);
+      }
+      saveLocalContent(globalConfig);
+      renderProjects();
+      showToast('Project added! Live on portfolio.');
+      document.getElementById('new-project-form').reset();
+      uploadedCoverDataUrl = '';
+      document.getElementById('proj-cover-preview').style.display = 'none';
+      document.getElementById('upload-prompt').style.display = 'block';
+    };
+
+    window.deleteProject = (index) => {
+      if (confirm('Delete "' + globalConfig.projects[index].title + '"?')) {
+        globalConfig.projects.splice(index, 1);
+        saveLocalContent(globalConfig);
+        renderProjects();
+        showToast('Project removed.');
+      }
+    };
+
+    window.toggleFeatured = (index) => {
+      globalConfig.projects[index].featured = !globalConfig.projects[index].featured;
+      saveLocalContent(globalConfig);
+      renderProjects();
+      showToast('Project status updated.');
+    };
+
+    function renderSkills() {
+      const container = document.getElementById('skills-editor-container');
+      if (!globalConfig || !globalConfig.skills) return;
+      container.innerHTML = globalConfig.skills.map((group, gIdx) => `
+        <div class="skill-group-box">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <input type="text" value="${group.group}" class="form-input" style="font-weight: 700; width: 220px; font-size: 1rem;" onchange="updateSkillGroupName(${gIdx}, this.value)">
+            <button type="button" class="btn btn-danger" style="padding: 4px 12px; font-size: 0.75rem;" onclick="deleteSkillGroup(${gIdx})">Delete Group</button>
+          </div>
+          <div class="skill-tags-wrap">
+            ${group.items.map((item, iIdx) => `
+              <span class="skill-tag-pill">
+                ${item}
+                <button type="button" class="skill-del-btn" onclick="deleteSkillItem(${gIdx}, ${iIdx})">&times;</button>
+              </span>
+            `).join('')}
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <input type="text" id="new-skill-input-${gIdx}" class="form-input" style="flex: 1;" placeholder="Add skill to ${group.group} (e.g. Next.js)">
+            <button type="button" class="btn btn-secondary" onclick="addSkillItem(${gIdx})">+ Add Skill</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.updateSkillGroupName = (gIdx, newName) => {
+      globalConfig.skills[gIdx].group = newName.trim();
+      saveLocalContent(globalConfig);
+      showToast('Category renamed.');
+    };
+
+    window.deleteSkillGroup = (gIdx) => {
+      if (confirm('Delete skill group "' + globalConfig.skills[gIdx].group + '"?')) {
+        globalConfig.skills.splice(gIdx, 1);
+        saveLocalContent(globalConfig);
+        renderSkills();
+        showToast('Category removed.');
+      }
+    };
+
+    window.deleteSkillItem = (gIdx, iIdx) => {
+      globalConfig.skills[gIdx].items.splice(iIdx, 1);
+      saveLocalContent(globalConfig);
+      renderSkills();
+    };
+
+    window.addSkillItem = (gIdx) => {
+      const input = document.getElementById('new-skill-input-' + gIdx);
+      const val = input.value.trim();
+      if (!val) return;
+      globalConfig.skills[gIdx].items.push(val);
+      input.value = '';
+      saveLocalContent(globalConfig);
+      renderSkills();
+      showToast('Added "' + val + '"!');
+    };
+
+    window.addNewSkillGroup = () => {
+      const name = prompt('Enter new skill category name (e.g. Cloud & DevOps):');
+      if (!name || !name.trim()) return;
+      globalConfig.skills.push({
+        group: name.trim(),
+        items: []
+      });
+      saveLocalContent(globalConfig);
+      renderSkills();
+      showToast('New category created!');
+    };
+
+    window.saveAllData = () => {
+      saveLocalContent(globalConfig);
+      showToast('All changes published to portfolio!');
+    };
+
+    window.exportJson = () => {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(globalConfig, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute('href', dataStr);
+      dlAnchor.setAttribute('download', 'home.json');
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+    };
+
+    window.resetToDefaults = () => {
+      if (confirm('Reset all custom projects and skills back to default?')) {
+        clearLocalContent();
+        location.reload();
+      }
+    };
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    init();
+  </script>
+</body>
+</html>

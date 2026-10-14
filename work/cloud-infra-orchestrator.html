@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulse Ops — Distributed Microservice Topology Visualizer | Shyam Kumar S</title>
+  <meta name="description" content="Case study: Distributed microservice topology visualizer and automatic anomaly detector engineered with TypeScript, Go, Docker, and Grafana.">
+  <meta name="author" content="Shyam Kumar S">
+  <meta name="keywords" content="TypeScript, Go, Docker, Grafana, Microservices, Observability, Case Study, Shyam Kumar S">
+  <link rel="canonical" href="https://shyam.dev/work/cloud-infra-orchestrator.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Pulse Ops — Distributed Microservice Topology Visualizer">
+  <meta property="og:description" content="Unified live telemetry streams into an interactive directed graph with automated root-cause anomaly clustering, cutting MTTR by 42%.">
+  <meta property="og:image" content="/posters/og-image.jpg">
+  <meta property="og:url" content="https://shyam.dev/work/cloud-infra-orchestrator.html">
+  <meta property="og:site_name" content="Shyam Kumar S Portfolio">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pulse Ops — Distributed Microservice Topology Visualizer">
+  <meta name="twitter:description" content="Unified live telemetry streams into an interactive directed graph with automated root-cause anomaly clustering, cutting MTTR by 42%.">
+  <meta name="twitter:image" content="/posters/og-image.jpg">
+
+  <link rel="icon" href="/posters/portrait.webp" type="image/webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+
+  <!-- JSON-LD TechArticle Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Pulse Ops: Distributed Microservice Topology Visualizer",
+    "image": "/posters/og-image.jpg",
+    "author": {
+      "@type": "Person",
+      "name": "Shyam Kumar S",
+      "url": "https://shyam.dev"
+    },
+    "datePublished": "2025-06-10",
+    "description": "Engineered full-stack observability topology visualizer parsing OpenTelemetry spans in Go and rendering graph DAGs in real-time with WebGL."
+  }
+  </script>
+
+  <style>
+    .cs-page { padding-top: 90px; }
+    .cs-container { max-width: 920px; margin: 0 auto; padding: 40px 24px 100px; }
+    .cs-breadcrumb { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--fg-muted); margin-bottom: 24px; }
+    .cs-breadcrumb a { color: var(--fg-muted); text-decoration: none; }
+    .cs-breadcrumb a:hover { color: var(--fg); }
+    .cs-meta-row { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+    .cs-title { font-family: var(--font-display); font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.15; margin-bottom: 20px; letter-spacing: -0.02em; }
+    .cs-lead { font-size: 1.25rem; color: var(--fg-muted); line-height: 1.6; margin-bottom: 32px; }
+    .cs-actions { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .cs-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 22px; border-radius: var(--radius-pill); font-size: 0.9375rem; font-weight: 600; text-decoration: none; transition: 0.2s ease; }
+    .cs-btn-primary { background: var(--fg); color: var(--bg); }
+    .cs-btn-primary:hover { background: #222; }
+    .cs-btn-secondary { background: var(--surface); color: var(--fg); border: 1px solid var(--line); }
+    .cs-btn-secondary:hover { border-color: var(--fg); }
+    .cs-cover-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.04); margin-bottom: 48px; background: #eaeaea; }
+    .cs-facts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 56px; }
+    .cs-fact-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .cs-fact-val { font-weight: 600; font-size: 0.9375rem; }
+    .cs-metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 32px 0 48px; }
+    .cs-metric-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px; text-align: center; }
+    .cs-metric-num { font-family: var(--font-display); font-size: 2.25rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .cs-metric-desc { font-size: 0.8125rem; color: var(--fg-muted); font-weight: 500; }
+    .cs-content h2 { font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; margin: 48px 0 16px; letter-spacing: -0.01em; }
+    .cs-content p { font-size: 1.0625rem; line-height: 1.75; color: #2C2D30; margin-bottom: 20px; }
+    .cs-callout { background: #FFFFFF; border-left: 4px solid var(--accent); padding: 20px 24px; border-radius: 0 12px 12px 0; margin: 28px 0; border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .cs-nav-footer { border-top: 1px solid var(--line); padding-top: 48px; margin-top: 64px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    @media (max-width: 768px) {
+      .cs-facts-grid { grid-template-columns: repeat(2, 1fr); }
+      .cs-metrics-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="cs-page">
+  <!-- Header -->
+  <header class="header scrolled" id="main-header">
+    <a href="/" class="logo">SHYAM KUMAR S</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/#projects" class="nav-link">&larr; All Projects</a></li>
+        <li><a href="/#skills" class="nav-link">Skills</a></li>
+        <li><a href="/#contact" class="nav-link">Contact</a></li>
+        <li><a href="/resume.pdf" target="_blank" class="resume-btn">Resume</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="cs-container">
+    <!-- Breadcrumbs -->
+    <nav class="cs-breadcrumb" aria-label="Breadcrumbs">
+      <a href="/">Home</a> / <a href="/#projects">Work</a> / <span>Pulse Ops</span>
+    </nav>
+
+    <!-- Header Meta -->
+    <header>
+      <div class="cs-meta-row">
+        <span class="project-year">2025</span>
+        <div class="project-tags">
+          <span class="project-tag">TypeScript</span>
+          <span class="project-tag">Go</span>
+          <span class="project-tag">Docker</span>
+          <span class="project-tag">Grafana</span>
+          <span class="project-tag">OpenTelemetry</span>
+        </div>
+      </div>
+      <h1 class="cs-title">Pulse Ops: Distributed Microservice Topology Visualizer</h1>
+      <p class="cs-lead">
+        Real-time telemetry aggregation engine and interactive dependency graph that surfaces cascaded latency anomalies across distributed microservice architectures.
+      </p>
+      <div class="cs-actions">
+        <a href="#" class="cs-btn cs-btn-primary">Launch Live Demo &nearr;</a>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="cs-btn cs-btn-secondary">View Code on GitHub &nearr;</a>
+        <a href="/#contact" class="cs-btn cs-btn-secondary">Discuss Architecture</a>
+      </div>
+    </header>
+
+    <!-- Cover Image -->
+    <img class="cs-cover-img" src="/posters/og-image.jpg" alt="Pulse Ops Topology Dashboard Screenshot">
+
+    <!-- Quick Facts -->
+    <div class="cs-facts-grid">
+      <div>
+        <div class="cs-fact-label">Role</div>
+        <div class="cs-fact-val">Systems &amp; Frontend Engineer</div>
+      </div>
+      <div>
+        <div class="cs-fact-label">Timeline</div>
+        <div class="cs-fact-val">3 Months (2025)</div>
+      </div>
+      <div>
+        <div class="cs-fact-label">Stack</div>
+        <div class="cs-fact-val">Go, TypeScript, D3/WebGL</div>
+      </div>
+      <div>
+        <div class="cs-fact-label">Status</div>
+        <div class="cs-fact-val">Internal Production</div>
+      </div>
+    </div>
+
+    <!-- Key Metrics Highlight -->
+    <div class="cs-metrics-grid">
+      <div class="cs-metric-card">
+        <div class="cs-metric-num">-42%</div>
+        <div class="cs-metric-desc">Mean-Time-To-Resolution (MTTR) reduction</div>
+      </div>
+      <div class="cs-metric-card">
+        <div class="cs-metric-num">150+</div>
+        <div class="cs-metric-desc">Microservices mapped in live real-time DAG</div>
+      </div>
+      <div class="cs-metric-card">
+        <div class="cs-metric-num">&lt; 100 ms</div>
+        <div class="cs-metric-desc">Span ingestion to visual alert pipeline</div>
+      </div>
+    </div>
+
+    <!-- Case Study Body -->
+    <article class="cs-content">
+      <h2>1. The Problem &amp; Challenge</h2>
+      <p>
+        As engineering organizations grow into hundreds of decoupled microservices, identifying the root cause of an endpoint timeout requires site reliability engineers (SREs) to correlate logs across Kibana, metrics in Prometheus, and traces in Jaeger across disparate browser windows.
+      </p>
+      <p>
+        During critical outages, engineers spent 70% of incident response time merely diagnosing which upstream dependency initiated the cascade of failures.
+      </p>
+
+      <h2>2. Architecture &amp; Telemetry Pipeline</h2>
+      <p>
+        Pulse Ops bridges the gap between deep observability metrics and intuitive spatial debugging:
+      </p>
+      <div class="cs-callout">
+        <strong>High-Throughput Go Ingestion Daemon:</strong> A lightweight Go service subscribes to OpenTelemetry gRPC span collectors, aggregating call-frequency matrices and p99 latency thresholds into memory every 500ms before broadcasting delta snapshots to the browser interface.
+      </div>
+      <p>
+        The frontend uses WebGL-accelerated directed acyclic graph (DAG) layout algorithms to automatically group clusters by team ownership and highlight degraded service edges in vivid amber and red hues.
+      </p>
+
+      <h2>3. Technical Highlights</h2>
+      <p>
+        - <strong>Force-Directed WebGL Physics Engine:</strong> Nodes settle dynamically using GPU physics, smoothly expanding sub-clusters when an engineer zooms into an incident zone.<br>
+        - <strong>Automated Root Cause Scoring:</strong> A graph traversal algorithm calculates anomaly scores along upstream call paths, pointing incident commanders directly to the originating failing node.<br>
+        - <strong>Grafana &amp; Alertmanager Deep Links:</strong> One-click navigation to filtered dashboard panels with pre-populated timestamp ranges corresponding to the anomaly trigger window.
+      </p>
+
+      <h2>4. Outcome &amp; Impact</h2>
+      <p>
+        Pulse Ops reduced the median incident resolution time from 38 minutes to under 22 minutes (a 42% decrease in MTTR), saving dozens of engineering hours during critical deployments and production alerts.
+      </p>
+    </article>
+
+    <!-- Next Case Study Footer -->
+    <footer class="cs-nav-footer">
+      <div>
+        <span style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--fg-muted);">Next Case Study</span>
+        <div style="font-size: 1.125rem; font-weight: 700; margin-top: 4px;">
+          <a href="/work/fintech-realtime-dashboard.html" style="color: var(--fg); text-decoration: none;">Apex Financial: Real-Time WebGL Trading Terminal &rarr;</a>
+        </div>
+      </div>
+      <a href="/#projects" class="cs-btn cs-btn-secondary">View All Projects</a>
+    </footer>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Shyam Kumar S. Crafted with semantic HTML, GSAP, and WebGL.</p>
+  </footer>
+</body>
+</html>

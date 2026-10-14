@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shyam Kumar S — Full-Stack Web Developer</title>
+  <meta name="description" content="Portfolio of Shyam Kumar S — Full-Stack Web Developer crafting high-performance, scroll-driven interactive experiences, real-time architectures, and robust web applications.">
+  <meta name="author" content="Shyam Kumar S">
+  <meta name="keywords" content="Shyam, Shyam Kumar S, Full-Stack Developer, Web Developer, Bengaluru, React, Next.js, Node.js, GSAP, WebGL, High Performance Web">
+  <meta name="theme-color" content="#F2F2F0">
+  <link rel="canonical" href="https://shyam.dev/">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:site_name" content="Shyam Kumar S — Developer Portfolio">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shyam.dev/">
+  <meta property="og:title" content="Shyam Kumar S — Full-Stack Web Developer">
+  <meta property="og:description" content="Scroll-driven developer portfolio showcasing engineering quality, interactive design, and full-stack systems.">
+  <meta property="og:image" content="/posters/og-image.jpg">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://shyam.dev/">
+  <meta name="twitter:title" content="Shyam Kumar S — Full-Stack Web Developer">
+  <meta name="twitter:description" content="Scroll-driven developer portfolio showcasing engineering quality, interactive design, and full-stack systems.">
+  <meta name="twitter:image" content="/posters/og-image.jpg">
+
+  <link rel="icon" href="/posters/portrait.webp" type="image/webp">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/src/style.css">
+
+  <!-- JSON-LD Person Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Shyam",
+    "jobTitle": "Full-Stack Web Developer",
+    "image": "/posters/portrait.jpg",
+    "url": "https://shyam.dev",
+    "sameAs": [
+      "https://github.com",
+      "https://linkedin.com"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a href="#work" class="skip-to-content">Skip to work</a>
+
+  <!-- Preloader -->
+  <div id="loader" aria-live="polite">
+    <div class="loader-content">
+      <div class="loader-name">SHYAM</div>
+      <div class="loader-bar-bg">
+        <div id="loader-bar" class="loader-bar-fill"></div>
+      </div>
+      <div id="loader-status" class="loader-status">Loading visual frames 0%</div>
+      <button id="loader-skip-btn" class="loader-skip-btn" type="button">Skip Intro &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="header" id="main-header">
+    <a href="#" class="logo">SHYAM KUMAR S</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#work" class="nav-link">Work</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="/admin.html" class="nav-link" title="Admin Dashboard" style="font-size: 0.8125rem; opacity: 0.8;">Admin</a></li>
+        <li><a href="/resume.pdf" target="_blank" class="resume-btn">Resume</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section (Scroll Canvas) -->
+    <section class="hero-container" id="hero-section">
+      <div class="hero-sticky-frame">
+        <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
+        <div class="hero-scrim"></div>
+        <div id="hero-overlays" class="hero-overlays-container"></div>
+        <div class="scroll-hint" id="scroll-hint">
+          <span>SCROLL TO EXPLORE</span>
+          <span>&darr;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work / Projects Section -->
+    <section class="section" id="projects">
+      <div id="work" style="position: relative; top: -100px;"></div>
+      <div class="section-header">
+        <span class="section-label">Portfolio</span>
+        <h2 class="section-title">Finished Projects</h2>
+      </div>
+      <div id="project-filters" class="filter-chips"></div>
+      <div id="projects-grid" class="projects-grid"></div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+      <div class="section-header">
+        <span class="section-label">Capabilities</span>
+        <h2 class="section-title">Skills &amp; Technologies</h2>
+      </div>
+      <div id="skills-grid" class="skills-grid"></div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section" id="experience">
+      <div class="section-header">
+        <span class="section-label">Career History</span>
+        <h2 class="section-title">Experience &amp; Milestones</h2>
+      </div>
+      <div id="experience-timeline" class="timeline"></div>
+    </section>
+
+    <!-- Contact Section -->
+    <div class="contact-wrapper" id="contact">
+      <div class="contact-inner">
+        <div class="contact-info">
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            <span>Available for select projects</span>
+          </div>
+          <span class="section-label">Get in touch</span>
+          <h2 class="section-title">Let's create something exceptional.</h2>
+          <p>
+            Whether you need a bespoke interactive frontend, full-stack architecture, or creative web engineering, let's connect.
+          </p>
+          <div class="social-links">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-btn">GitHub</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn</a>
+            <a href="mailto:shyam@example.com" class="social-btn">Email</a>
+          </div>
+        </div>
+
+        <form id="contact-form" class="contact-form">
+          <div class="form-group">
+            <label for="contact-name" class="form-label">Name</label>
+            <input type="text" id="contact-name" name="name" class="form-input" placeholder="Alex Morgan" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-email" class="form-label">Email</label>
+            <input type="email" id="contact-email" name="email" class="form-input" placeholder="alex@company.com" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-type" class="form-label">Enquiry Type</label>
+            <select id="contact-type" name="type" class="form-select">
+              <option value="freelance">Freelance Project</option>
+              <option value="job">Full-time Role</option>
+              <option value="collab">Collaboration</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contact-message" class="form-label">Message</label>
+            <textarea id="contact-message" name="message" class="form-textarea" placeholder="Tell me about your project, timeline, and goals..." required></textarea>
+          </div>
+          <!-- Honeypot -->
+          <div class="honeypot">
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="consent-group">
+            <input type="checkbox" id="contact-consent" name="consent" required>
+            <label for="contact-consent">I consent to having my details processed for responding to this inquiry.</label>
+          </div>
+          <button type="submit" class="submit-btn">Send Message &rarr;</button>
+          <div id="form-status" class="form-status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Shyam. Built with Vite, GSAP, Lenis, and Canvas 2D.</p>
+    <p style="margin-top: 8px;"><a href="/admin.html" style="color: var(--inverse-muted); text-decoration: none; font-size: 0.8125rem;">⚙️ Admin Dashboard (Add Projects &amp; Edit Skills)</a></p>
+  </footer>
+
+  <noscript>
+    <style>
+      #loader { display: none !important; }
+      .hero-sticky-frame { position: relative; height: auto; }
+      .project-card { opacity: 1 !important; transform: none !important; }
+    </style>
+    <div style="padding: 40px; text-align: center;">
+      <img src="/posters/portrait.jpg" alt="Portrait of Shyam, web developer" style="max-width: 320px; border-radius: 16px;">
+      <h1>Shyam — Full-Stack Web Developer</h1>
+      <p>Building high-performance interactive web experiences.</p>
+    </div>
+  </noscript>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
