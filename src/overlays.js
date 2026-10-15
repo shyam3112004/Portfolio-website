@@ -9,7 +9,8 @@ export function initOverlays(overlays, containerEl, canvasEl) {
 
   const elements = overlays.map((item) => {
     const el = document.createElement('div');
-    el.className = `hero-overlay-item align-${item.align || 'center'}`;
+    const alignment = item.align === 'right' ? 'right' : 'left';
+    el.className = `hero-overlay-item align-${alignment}`;
     el.id = item.id;
 
     let ctaHtml = '';
@@ -18,19 +19,20 @@ export function initOverlays(overlays, containerEl, canvasEl) {
     }
 
     el.innerHTML = `
+      ${item.kicker ? `<div class="hero-overlay-kicker">${item.kicker}</div>` : ''}
       <h2 class="hero-overlay-heading">${item.heading}</h2>
       ${item.body ? `<p class="hero-overlay-body">${item.body}</p>` : ''}
       ${ctaHtml}
     `;
 
     containerEl.appendChild(el);
-    return { item, el };
+    return { item, el, alignment };
   });
 
   // Function to evaluate visibility and animation state based on progress (0 - 1)
   function update(progress) {
     elements.forEach(({ item, el }) => {
-      const { start, end, align } = item;
+      const { start, end } = item;
       const fadeRange = 0.05; // 5% scroll transition
 
       if (progress >= start && progress <= end) {
@@ -41,20 +43,16 @@ export function initOverlays(overlays, containerEl, canvasEl) {
         if (progress < start + fadeRange) {
           const ratio = (progress - start) / fadeRange;
           opacity = gsap.parseEase('power2.out')(ratio);
-          translateY = (1 - ratio) * 25;
+          translateY = (1 - ratio) * 20;
         } else if (progress > end - fadeRange) {
           const ratio = (end - progress) / fadeRange;
           opacity = gsap.parseEase('power2.in')(ratio);
-          translateY = (1 - ratio) * -25;
+          translateY = (1 - ratio) * -20;
         }
 
         el.style.opacity = String(opacity);
         el.style.visibility = opacity > 0.01 ? 'visible' : 'hidden';
-        if (align === 'center') {
-          el.style.transform = `translate(-50%, ${translateY}px)`;
-        } else {
-          el.style.transform = `translateY(${translateY}px)`;
-        }
+        el.style.transform = `translateY(${translateY}px)`;
       } else {
         el.style.opacity = '0';
         el.style.visibility = 'hidden';

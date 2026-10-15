@@ -107,8 +107,8 @@
         <div style="font-size: 12px; color: var(--muted-foreground);">Scroll-driven video push-in inspection</div>
       </div>
       <div style="display: flex; gap: 6px;">
-        <button id="tab-desktop" class="btn" onclick="setMode('desktop')">Desktop (120f)</button>
-        <button id="tab-mobile" class="btn btn-outline" onclick="setMode('mobile')">Mobile (90f)</button>
+        <button id="tab-desktop" class="btn" onclick="setMode('desktop')">Desktop (192f)</button>
+        <button id="tab-mobile" class="btn btn-outline" onclick="setMode('mobile')">Mobile (192f)</button>
       </div>
     </div>
 
@@ -118,26 +118,26 @@
 
     <div class="controls">
       <button id="play-btn" class="btn btn-outline" onclick="togglePlay()">Play</button>
-      <input id="scrubber" class="scrub-slider" type="range" min="1" max="120" value="1" oninput="onScrub(this.value)">
-      <span id="frame-badge" class="badge">Frame: 1 / 120 (0.0%)</span>
+      <input id="scrubber" class="scrub-slider" type="range" min="1" max="192" value="1" oninput="onScrub(this.value)">
+      <span id="frame-badge" class="badge">Frame: 1 / 192 (0.0%)</span>
     </div>
   </div>
 
   <div class="stats-grid">
     <div class="stat-item">
       <div class="stat-label">Desktop Sequence</div>
-      <div class="stat-val">120 frames &bull; 3.38 MB</div>
-      <div style="font-size: 11px; color: #188038;">&#10003; Target &le; 10 MB</div>
+      <div class="stat-val">192 frames &bull; 16.2 MB</div>
+      <div style="font-size: 11px; color: #188038;">Full HD 1920x1080</div>
     </div>
     <div class="stat-item">
       <div class="stat-label">Mobile Sequence</div>
-      <div class="stat-val">90 frames &bull; 1.93 MB</div>
-      <div style="font-size: 11px; color: #188038;">&#10003; Target &le; 4 MB</div>
+      <div class="stat-val">192 frames &bull; 3.21 MB</div>
+      <div style="font-size: 11px; color: #188038;">&#10003; Target &le; 4 MB (960x540)</div>
     </div>
     <div class="stat-item">
       <div class="stat-label">Video Fallback</div>
-      <div class="stat-val">H.264 &bull; 1.80 MB</div>
-      <div style="font-size: 11px; color: #188038;">5.0s @ 24fps</div>
+      <div class="stat-val">H.264 &bull; 3.72 MB</div>
+      <div style="font-size: 11px; color: #188038;">8.0s @ 24fps</div>
     </div>
   </div>
 </div>
@@ -155,13 +155,12 @@
   function setMode(mode) {
     currentMode = mode;
     stopPlay();
+    scrubber.max = 192;
     if (mode === 'desktop') {
-      scrubber.max = 120;
       viewportWrap.classList.remove('mobile-ratio');
       document.getElementById('tab-desktop').className = 'btn';
       document.getElementById('tab-mobile').className = 'btn btn-outline';
     } else {
-      scrubber.max = 90;
       viewportWrap.classList.add('mobile-ratio');
       document.getElementById('tab-desktop').className = 'btn btn-outline';
       document.getElementById('tab-mobile').className = 'btn';

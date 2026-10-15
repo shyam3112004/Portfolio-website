@@ -7,10 +7,14 @@ import { initSmoothScroll } from './smoothScroll.js';
 import { initProjects } from './projects.js';
 import { initContactForm } from './contactForm.js';
 import { track } from './analytics.js';
+import { initTheme } from './theme.js';
+import { initAuthUI } from './auth.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
 async function bootstrap() {
+  initTheme();
+  initAuthUI();
   const loaderEl = document.getElementById('loader');
   const loaderBarEl = document.getElementById('loader-bar');
   const loaderStatusEl = document.getElementById('loader-status');

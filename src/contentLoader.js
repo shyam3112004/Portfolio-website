@@ -7,7 +7,16 @@ export async function loadContent(slug = 'home') {
     const localData = localStorage.getItem('portfolio_custom_content');
     if (localData) {
       const parsed = JSON.parse(localData);
-      if (parsed && parsed.projects && parsed.skills) return parsed;
+      if (parsed && parsed.projects && parsed.skills) {
+        // Purge stale cache containing legacy framework/library tags
+        const hasLegacyTags = parsed.projects.some((p) =>
+          p.tags?.some((t) => ['Docker', 'Grafana', 'WebGL', 'Node.js', 'React', 'Go'].includes(t))
+        );
+        if (!hasLegacyTags) {
+          return parsed;
+        }
+        localStorage.removeItem('portfolio_custom_content');
+      }
     }
   } catch (e) {}
 
