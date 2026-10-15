@@ -199,11 +199,21 @@ body {
   flex-shrink: 0;
   transition: color var(--transition);
 }
+.nav-desktop,
 .nav-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-left: auto;
   flex-shrink: 1;
+}
+
+/* Mobile navigation elements completely hidden on laptop / desktop */
+.mobile-nav-actions,
+.mobile-nav-toggle,
+.nav-drawer,
+.mobile-nav-backdrop {
+  display: none;
 }
 .nav-links {
   display: flex;
