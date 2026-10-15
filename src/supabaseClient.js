@@ -8,12 +8,13 @@
  */
 import { createClient } from '@supabase/supabase-js';
 
-const rawSupabaseUrl = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || '';
+const rawSupabaseUrl = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_URL) || 'https://xviznczmjjowtbxsxigz.supabase.co';
 const supabaseUrl = rawSupabaseUrl
   .trim()
+  .replace(/\/rest\/v1\/?$/, '')
   .replace(/\/auth\/v1\/callback\/?$/, '')
   .replace(/\/+$/, '');
-const supabaseAnonKey = ((typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || '').trim();
+const supabaseAnonKey = ((typeof import.meta !== 'undefined' && import.meta.env?.VITE_SUPABASE_ANON_KEY) || 'sb_publishable_S9qyQIOH29OXVDe5Uk3A7A_joahMWR2').trim();
 
 /**
  * Check if valid Supabase credentials have been configured.
