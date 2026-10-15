@@ -4,8 +4,8 @@
  */
 export function initScrollCanvas({ canvas, scene, onKeyframesReady, onProgress }) {
   const ctx = canvas.getContext('2d', { alpha: false });
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  const frameConfig = isMobile ? scene.frames.mobile : scene.frames.desktop;
+  // Always use crisp Full HD 1080p frames so mobile devices never suffer from low-res blurriness
+  const frameConfig = scene.frames.desktop || scene.frames.mobile;
   const totalFrames = frameConfig.count;
   const basePath = frameConfig.basePath;
   const ext = frameConfig.ext;
@@ -99,7 +99,7 @@ export function initScrollCanvas({ canvas, scene, onKeyframesReady, onProgress }
   }
 
   function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
     const rect = canvas.getBoundingClientRect();
     const width = Math.round(rect.width * dpr);
     const height = Math.round(rect.height * dpr);
@@ -108,6 +108,8 @@ export function initScrollCanvas({ canvas, scene, onKeyframesReady, onProgress }
       canvas.width = width;
       canvas.height = height;
     }
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
     render(currentProgress);
   }
 
@@ -140,6 +142,8 @@ export function initScrollCanvas({ canvas, scene, onKeyframesReady, onProgress }
     const dx = (cw - dw) / 2;
     const dy = (ch - dh) / 2;
 
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, dx, dy, dw, dh);
   }
 

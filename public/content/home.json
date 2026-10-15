@@ -24,7 +24,7 @@
           "ext": "webp"
         },
         "mobile": {
-          "basePath": "/frames/mobile",
+          "basePath": "/frames/desktop",
           "count": 192,
           "ext": "webp"
         }
