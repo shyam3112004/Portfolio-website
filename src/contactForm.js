@@ -92,15 +92,15 @@ export function initContactForm(formEl, statusEl) {
 
       if (data.success === 'true' || data.success === true) {
         statusEl.className = 'form-status success';
-        statusEl.textContent = "Thank you! Your message has been sent directly to Shyam's inbox. I will reply within 48 hours.";
+        statusEl.textContent = "Thank you! Your message has been sent successfully. I will get back to you soon.";
         formEl.reset();
       } else if (data.message && data.message.includes('Activation')) {
         statusEl.className = 'form-status success';
-        statusEl.innerHTML = `Form submitted! Please note: FormSubmit sent a one-time <strong>Activation Email</strong> to 3112004shyam@gmail.com. Once activated, all future inquiries deliver instantly.`;
+        statusEl.textContent = "Thank you! Your message has been sent successfully. I will get back to you soon.";
         formEl.reset();
       } else {
         statusEl.className = 'form-status success';
-        statusEl.textContent = "Thank you! Your message has been received.";
+        statusEl.textContent = "Thank you! Your message has been sent successfully. I will get back to you soon.";
         formEl.reset();
       }
     } catch (err) {
