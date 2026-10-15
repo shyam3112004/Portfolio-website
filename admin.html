@@ -384,7 +384,7 @@
 
   <script type="module">
     import { loadContent, saveLocalContent, clearLocalContent } from '/src/contentLoader.js';
-    import { getCurrentUser, isAdminUser, ADMIN_EMAIL, initSupabaseAuthListener } from '/src/auth.js';
+    import { getCurrentUser, isAdminUser, ADMIN_EMAIL, login, initSupabaseAuthListener } from '/src/auth.js';
 
     initSupabaseAuthListener();
 
@@ -393,21 +393,62 @@
     if (!currentUser || !isAdminUser(currentUser)) {
       document.body.innerHTML = `
         <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; font-family: var(--font-body); background: var(--bg); color: var(--fg);">
-          <div style="max-width: 440px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 40px 32px; box-shadow: 0 16px 40px rgba(0,0,0,0.12);">
-            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(217,48,37,0.1); color: var(--danger, #d93025); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 16px;">
-              &#9888;
+          <div style="max-width: 440px; width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 40px 32px; box-shadow: 0 16px 40px rgba(0,0,0,0.12); text-align: left;">
+            <div style="text-align: center; margin-bottom: 24px;">
+              <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(51, 85, 255, 0.1); color: var(--accent); display: inline-flex; align-items: center; justify-content: center; font-size: 1.75rem; margin-bottom: 12px;">
+                &#128274;
+              </div>
+              <h1 style="font-family: var(--font-display, 'Space Grotesk', sans-serif); font-size: 1.5rem; margin-bottom: 6px; text-align: center;">Admin Console</h1>
+              <p style="color: var(--fg-muted); font-size: 0.875rem;">
+                Restricted to <strong>${ADMIN_EMAIL}</strong>
+              </p>
             </div>
-            <h1 style="font-family: var(--font-display, 'Syne', sans-serif); font-size: 1.5rem; margin-bottom: 8px;">Admin Access Restricted</h1>
-            <p style="color: var(--fg-muted); font-size: 0.875rem; line-height: 1.6; margin-bottom: 20px;">
-              This portal is strictly reserved for administrator <strong>${ADMIN_EMAIL}</strong>. You are currently not signed in as the authorized administrator.
-            </p>
-            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-              <a href="/auth.html?redirect=/admin.html" style="padding: 10px 20px; border-radius: 999px; background: var(--fg); color: var(--bg); text-decoration: none; font-size: 0.875rem; font-weight: 600;">Sign In with Admin Gmail</a>
-              <a href="/" style="padding: 10px 20px; border-radius: 999px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; font-size: 0.875rem; font-weight: 500;">Return Home</a>
-            </div>
+            <form id="inline-admin-login" style="display: flex; flex-direction: column; gap: 14px;">
+              <div id="admin-err-box" style="display: none; padding: 10px 14px; border-radius: 8px; background: rgba(217, 48, 37, 0.1); color: var(--danger, #d93025); font-size: 0.8125rem; font-weight: 500; text-align: center;"></div>
+              <div>
+                <label class="form-label" style="display: block; margin-bottom: 6px;">Admin Email</label>
+                <input type="email" id="admin-email-field" class="form-input" value="${ADMIN_EMAIL}" readonly style="width: 100%; opacity: 0.9; cursor: not-allowed;">
+              </div>
+              <div>
+                <label class="form-label" style="display: block; margin-bottom: 6px;">Password</label>
+                <input type="password" id="admin-pass-field" class="form-input" placeholder="Enter password (default: admin)" required autofocus style="width: 100%;">
+              </div>
+              <button type="submit" id="admin-submit-btn" class="btn btn-primary" style="justify-content: center; width: 100%; padding: 12px; margin-top: 6px; font-size: 0.9375rem;">
+                Unlock Admin Console
+              </button>
+              <a href="/" class="btn btn-secondary" style="justify-content: center; width: 100%;">
+                Return to Portfolio
+              </a>
+            </form>
           </div>
         </div>
       `;
+
+      const loginForm = document.getElementById('inline-admin-login');
+      const passField = document.getElementById('admin-pass-field');
+      const errBox = document.getElementById('admin-err-box');
+      const submitBtn = document.getElementById('admin-submit-btn');
+
+      loginForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (errBox) errBox.style.display = 'none';
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Verifying...'; }
+        try {
+          const user = await login(ADMIN_EMAIL, passField.value);
+          if (isAdminUser(user)) {
+            window.location.reload();
+          } else {
+            throw new Error('Unauthorized account.');
+          }
+        } catch (err) {
+          if (errBox) {
+            errBox.textContent = err.message || 'Invalid credentials.';
+            errBox.style.display = 'block';
+          }
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Unlock Admin Console'; }
+        }
+      });
+
       throw new Error('Access Denied: Admin privileges required.');
     }
 
