@@ -209,8 +209,21 @@ export async function signUp({ name, email, password }) {
 
 /**
  * Sign In / Authentication (Login)
+ * Supports both login({ email, password }) and login(email, password)
  */
-export async function login({ email, password }) {
+export async function login(arg1, arg2) {
+  let email, password;
+  if (typeof arg1 === 'object' && arg1 !== null) {
+    email = arg1.email;
+    password = arg1.password;
+  } else {
+    email = arg1;
+    password = arg2;
+  }
+
+  if (!email) {
+    throw new Error('Email is required.');
+  }
   const normalizedEmail = email.trim().toLowerCase();
 
   // Supabase Auth Integration

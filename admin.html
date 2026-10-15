@@ -434,7 +434,7 @@
         if (errBox) errBox.style.display = 'none';
         if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Verifying...'; }
         try {
-          const user = await login(ADMIN_EMAIL, passField.value);
+          const user = await login({ email: ADMIN_EMAIL, password: passField.value });
           if (isAdminUser(user)) {
             window.location.reload();
           } else {
