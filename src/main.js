@@ -133,6 +133,9 @@ async function bootstrap() {
     }
   }, { passive: true });
 
+  // Mobile Navigation Drawer
+  initMobileNav();
+
   // 6. Populate Work / Projects
   const projectsGridEl = document.getElementById('projects-grid');
   const filtersEl = document.getElementById('project-filters');
@@ -175,6 +178,52 @@ async function bootstrap() {
 
   // 10. Initial Page Track
   track('page_view');
+}
+
+function initMobileNav() {
+  const toggleBtn = document.getElementById('mobile-nav-toggle');
+  const drawer = document.getElementById('main-nav-drawer');
+  const backdrop = document.getElementById('mobile-nav-backdrop');
+  if (!toggleBtn || !drawer) return;
+
+  function openNav() {
+    toggleBtn.classList.add('active');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    drawer.classList.add('open');
+    backdrop?.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    toggleBtn.classList.remove('active');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    drawer.classList.remove('open');
+    backdrop?.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (drawer.classList.contains('open')) {
+      closeNav();
+    } else {
+      openNav();
+    }
+  });
+
+  backdrop?.addEventListener('click', closeNav);
+
+  drawer.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      closeNav();
+    });
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) {
+      closeNav();
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', bootstrap);
