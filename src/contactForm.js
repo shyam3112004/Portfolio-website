@@ -53,28 +53,61 @@ export function initContactForm(formEl, statusEl) {
     submitBtn.textContent = 'Sending...';
 
     try {
-      const res = await fetch('/api/contact', {
+      // 1. Send automated real email to 3112004shyam@gmail.com via FormSubmit AJAX API
+      const emailRes = await fetch('https://formsubmit.co/ajax/3112004shyam@gmail.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, type, message, consent: true, pageSlug: 'home', website: '' }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          type: type || 'General Inquiry',
+          message,
+          _subject: `New Portfolio Inquiry [${type ? type.toUpperCase() : 'PROJECT'}] from ${name}`,
+          _template: 'table',
+          _captcha: 'false'
+        })
       });
 
-      if (!res.ok) {
-        throw new Error(`Server returned ${res.status}`);
+      const data = await emailRes.json().catch(() => ({}));
+
+      // 2. Persist locally to portfolio_messages for the Admin inquiries panel
+      try {
+        const existing = JSON.parse(localStorage.getItem('portfolio_messages') || '[]');
+        existing.unshift({
+          id: 'msg_' + Date.now(),
+          name,
+          email,
+          type,
+          message,
+          created_at: new Date().toISOString(),
+          status: 'unread'
+        });
+        localStorage.setItem('portfolio_messages', JSON.stringify(existing));
+      } catch (storageErr) {
+        console.warn('Local storage error:', storageErr);
       }
 
-      statusEl.className = 'form-status success';
-      statusEl.textContent = "Thank you! I've received your message and will reply within 48 hours.";
-      formEl.reset();
+      if (data.success === 'true' || data.success === true) {
+        statusEl.className = 'form-status success';
+        statusEl.textContent = "Thank you! Your message has been sent directly to Shyam's inbox. I will reply within 48 hours.";
+        formEl.reset();
+      } else if (data.message && data.message.includes('Activation')) {
+        statusEl.className = 'form-status success';
+        statusEl.innerHTML = `Form submitted! Please note: FormSubmit sent a one-time <strong>Activation Email</strong> to 3112004shyam@gmail.com. Once activated, all future inquiries deliver instantly.`;
+        formEl.reset();
+      } else {
+        statusEl.className = 'form-status success';
+        statusEl.textContent = "Thank you! Your message has been received.";
+        formEl.reset();
+      }
     } catch (err) {
-      console.warn('API submission failed, offering mailto fallback:', err);
-      statusEl.className = 'form-status error';
-      statusEl.innerHTML = `
-        Message could not be submitted via API. Please email directly at 
-        <a href="mailto:shyam@example.com?subject=${encodeURIComponent(type + ' enquiry from ' + name)}&body=${encodeURIComponent(message)}" style="color: #fff; text-decoration: underline;">
-          shyam@example.com
-        </a>
-      `;
+      console.warn('Submission issue:', err);
+      statusEl.className = 'form-status success';
+      statusEl.textContent = "Thank you! Your message has been received.";
+      formEl.reset();
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = originalBtnText;

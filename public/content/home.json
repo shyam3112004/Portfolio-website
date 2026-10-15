@@ -8,9 +8,9 @@
     "availableForWork": true,
     "resumeUrl": "/resume.pdf",
     "socials": {
-      "github": "https://github.com",
-      "linkedin": "https://linkedin.com",
-      "email": "shyam@example.com"
+      "github": "https://github.com/shyam3112004",
+      "linkedin": "https://linkedin.com/in/shyam-kumar-8a223028a",
+      "email": "https://mail.google.com/mail/?view=cm&fs=1&to=3112004shyam@gmail.com"
     }
   },
   "scenes": [
@@ -20,12 +20,12 @@
       "frames": {
         "desktop": {
           "basePath": "/frames/desktop",
-          "count": 120,
+          "count": 192,
           "ext": "webp"
         },
         "mobile": {
           "basePath": "/frames/mobile",
-          "count": 90,
+          "count": 192,
           "ext": "webp"
         }
       },
@@ -35,33 +35,37 @@
           "id": "intro-1",
           "start": 0.0,
           "end": 0.22,
-          "heading": "Hi, I'm Shyam",
-          "body": "Building high-performance interactive web experiences.",
-          "align": "center"
+          "kicker": "01 / PORTFOLIO",
+          "heading": "Shyam Kumar S",
+          "body": "Crafting high-impact digital experiences.",
+          "align": "left"
         },
         {
           "id": "intro-2",
           "start": 0.28,
           "end": 0.48,
-          "heading": "Fast & Beautiful Web Apps",
-          "body": "Bridging the gap between engineering rigor and bespoke motion design.",
-          "align": "left"
+          "kicker": "02 / CRAFT",
+          "heading": "Motion & Speed",
+          "body": "Engineering rigor paired with fluid interaction.",
+          "align": "right"
         },
         {
           "id": "intro-3",
           "start": 0.54,
           "end": 0.74,
-          "heading": "React · Node · Postgres",
-          "body": "Full-stack systems architected for scale, polish, and speed.",
-          "align": "right"
+          "kicker": "03 / CAPABILITIES",
+          "heading": "Modern Stack",
+          "body": "React, Node & scalable cloud architectures.",
+          "align": "left"
         },
         {
           "id": "intro-4",
           "start": 0.80,
           "end": 1.0,
-          "heading": "Let's Build Together",
-          "body": "Available for select freelance contracts and full-time opportunities.",
-          "align": "center",
+          "kicker": "04 / COLLABORATE",
+          "heading": "Let's Build",
+          "body": "Available for selected roles & contracts.",
+          "align": "right",
           "cta": {
             "label": "Explore Work",
             "href": "#work"
@@ -73,12 +77,12 @@
   "projects": [
     {
       "slug": "fintech-realtime-dashboard",
-      "title": "Apex Financial",
-      "summary": "Sub-millisecond market monitoring terminal with WebSockets and custom WebGL charting.",
+      "title": "Apex Financial Platform",
+      "summary": "Complete real-time financial trading web application with WebSocket order books, interactive WebGL market depth, and portfolio risk management.",
       "year": 2026,
-      "tags": ["React", "TypeScript", "WebGL", "Node.js"],
+      "tags": ["Web Applications", "Interactive Websites"],
       "coverUrl": "/posters/og-image.jpg",
-      "liveUrl": "#",
+      "liveUrl": "/work/fintech-realtime-dashboard.html",
       "repoUrl": "https://github.com",
       "featured": true,
       "caseStudy": {
@@ -90,12 +94,12 @@
     },
     {
       "slug": "neural-canvas-studio",
-      "title": "Neural Canvas",
-      "summary": "Collaborative AI visual canvas platform supporting multi-agent workflow pipelines.",
+      "title": "Neural Canvas Studio",
+      "summary": "Collaborative AI visual canvas SaaS platform supporting multi-user real-time sync, generative node graphs, and production pipelines.",
       "year": 2025,
-      "tags": ["Next.js", "PostgreSQL", "Tailwind", "WebRTC"],
+      "tags": ["SaaS Platforms", "Web Applications"],
       "coverUrl": "/posters/portrait.jpg",
-      "liveUrl": "#",
+      "liveUrl": "/work/neural-canvas-studio.html",
       "repoUrl": "https://github.com",
       "featured": true,
       "caseStudy": {
@@ -107,12 +111,12 @@
     },
     {
       "slug": "cloud-infra-orchestrator",
-      "title": "Pulse Ops",
-      "summary": "Distributed microservice topology visualizer and automatic anomaly detector.",
+      "title": "Pulse Ops Portal",
+      "summary": "Full-scale cloud observability website providing distributed microservice topology inspection, live telemetry streams, and incident diagnosis.",
       "year": 2025,
-      "tags": ["TypeScript", "Go", "Docker", "Grafana"],
+      "tags": ["Web Applications", "SaaS Platforms"],
       "coverUrl": "/posters/og-image.jpg",
-      "liveUrl": "#",
+      "liveUrl": "/work/cloud-infra-orchestrator.html",
       "repoUrl": "https://github.com",
       "featured": false,
       "caseStudy": {
@@ -121,6 +125,17 @@
         "solution": "Unified telemetry streams into an interactive directed graph with live threshold highlighting.",
         "outcome": "Reduced Mean-Time-To-Resolution (MTTR) by 42%."
       }
+    },
+    {
+      "slug": "vanguard-atelier-commerce",
+      "title": "Vanguard Atelier",
+      "summary": "Flagship luxury direct-to-consumer e-commerce website featuring dynamic product customization, fluid page transitions, and frictionless checkout.",
+      "year": 2026,
+      "tags": ["E-Commerce Websites", "Interactive Websites"],
+      "coverUrl": "/posters/portrait.jpg",
+      "liveUrl": "/#contact",
+      "repoUrl": "https://github.com",
+      "featured": false
     }
   ],
   "skills": [
