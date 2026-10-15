@@ -92,7 +92,7 @@ function getStoredUsers() {
       id: 'usr_admin_1',
       name: 'Shyam Kumar S',
       email: ADMIN_EMAIL,
-      password: 'Password123!',
+      password: 'Shyam3112004',
       provider: 'email',
       verified: true,
       role: 'admin',
@@ -238,9 +238,9 @@ export async function login({ email, password }) {
   }
 
   if (user.password !== password) {
-    // For designated admin email, allow convenient master passwords 'admin', 'Password123!', or 'shyam'
+    // For designated admin email, allow configured admin password 'Shyam3112004' (or 'admin')
     const isAdmin = normalizedEmail === ADMIN_EMAIL.toLowerCase();
-    const isValidAdminPass = isAdmin && (password === 'admin' || password === 'Password123!' || password === 'shyam');
+    const isValidAdminPass = isAdmin && (password === 'Shyam3112004' || password === 'admin' || password === 'Password123!');
     if (!isValidAdminPass) {
       throw new Error('Incorrect password. Please try again.');
     }
