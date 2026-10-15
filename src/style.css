@@ -931,38 +931,275 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 900px) {
+  /* Mobile Header & Navigation */
+  .header {
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  [data-theme='dark'] .header {
+    background: rgba(18, 18, 18, 0.88);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    font-size: 1.0625rem;
+    max-width: calc(100% - 95px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .header-actions {
+    gap: 8px;
+  }
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+  .mobile-nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    cursor: pointer;
+    padding: 0;
+    transition: all var(--transition);
+  }
+  .mobile-nav-toggle:hover {
+    border-color: var(--accent);
+  }
+  .hamburger-bar {
+    width: 17px;
+    height: 2px;
+    background: var(--fg);
+    border-radius: 2px;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  }
+  .mobile-nav-toggle.active .hamburger-bar:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .mobile-nav-toggle.active .hamburger-bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .mobile-nav-toggle.active .hamburger-bar:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Slide-out Mobile Navigation Drawer */
+  .nav-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 290px;
+    max-width: 82vw;
+    height: 100vh;
+    height: 100dvh;
+    background: var(--surface);
+    border-left: 1px solid var(--line);
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+    padding: 80px 24px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-drawer.open {
+    transform: translateX(0);
+  }
+  .nav-drawer .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+  }
+  .nav-drawer .nav-links li {
+    width: 100%;
+  }
+  .nav-drawer .nav-link {
+    display: block;
+    width: 100%;
+    font-size: 1.125rem;
+    font-weight: 600;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-drawer .resume-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    margin-top: 10px;
+    font-size: 0.9375rem;
+  }
+  .nav-drawer .nav-user-menu {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 10px;
+  }
+
+  /* Hero overlays */
+  .hero-overlay-item,
+  .hero-overlay-item.align-left,
+  .hero-overlay-item.align-center,
+  .hero-overlay-item.align-right {
+    left: 20px !important;
+    right: 20px !important;
+    max-width: calc(100% - 40px) !important;
+    transform: translateY(-50%) !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+  .overlay-tag {
+    font-size: 0.75rem;
+    margin-bottom: 8px;
+  }
+  .overlay-headline {
+    font-size: clamp(1.625rem, 6.5vw, 2.25rem);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .overlay-subhead {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .overlay-cta {
+    padding: 10px 22px;
+    font-size: 0.875rem;
+  }
+  .scroll-hint {
+    bottom: 20px;
+    font-size: 0.6875rem;
+  }
+
+  /* Section Spacing */
+  .section {
+    padding: 64px 16px;
+  }
+  .section-header {
+    margin-bottom: 32px;
+  }
+  .section-title {
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
+  }
+  .section-desc {
+    font-size: 0.9375rem;
+  }
+
+  /* Projects Section */
   .section#projects {
-    padding: 60px 0 80px;
+    padding: 50px 0 70px;
+  }
+  .projects-header-wrapper {
+    padding: 0 16px;
+    margin: 0 auto 16px auto;
+  }
+  .project-filter-chips {
+    gap: 6px;
+  }
+  .filter-chip {
+    padding: 5px 12px;
+    font-size: 0.75rem;
   }
   .projects-grid {
     gap: 16px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 10px 16px 20px 16px;
   }
   .project-card {
-    flex: 0 0 320px;
-    width: 320px;
-    max-width: 320px;
+    flex: 0 0 min(330px, calc(100vw - 32px));
+    width: min(330px, calc(100vw - 32px));
+    max-width: 330px;
   }
+  .project-cover-wrap {
+    height: 175px;
+  }
+  .project-content {
+    padding: 18px 16px;
+  }
+  .project-title {
+    font-size: 1.125rem;
+  }
+  .project-desc {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* Skills Grid */
   .skills-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
+  .skill-category-card {
+    padding: 20px 16px;
+  }
+
+  /* Timeline */
+  .timeline {
+    padding-left: 24px;
+  }
+  .timeline-marker {
+    left: -31px;
+    width: 10px;
+    height: 10px;
+  }
+  .timeline-item {
+    margin-bottom: 36px;
+  }
+  .timeline-role {
+    font-size: 1.125rem;
+  }
+  .timeline-desc {
+    font-size: 0.875rem;
+  }
+
+  /* Contact Section */
   .contact-inner {
     grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 24px 18px;
+    border-radius: var(--radius-md);
   }
-  .hero-overlay-item.align-left,
-  .hero-overlay-item.align-center {
-    left: 20px;
-    right: auto;
-    text-align: left;
-    max-width: 82%;
+  .contact-info-title {
+    font-size: 1.25rem;
   }
-  .hero-overlay-item.align-right {
-    right: 20px;
-    left: auto;
-    text-align: right;
-    max-width: 82%;
-    align-items: flex-end;
+  .contact-info-desc {
+    font-size: 0.875rem;
+  }
+  .social-links {
+    gap: 8px;
+  }
+  .social-btn {
+    padding: 8px 14px;
+    font-size: 0.8125rem;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-input,
+  .form-textarea {
+    font-size: 16px !important;
+    padding: 12px 14px;
+  }
+  .submit-btn {
+    width: 100%;
+    padding: 13px 20px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 28px 16px;
+    font-size: 0.75rem;
   }
 }
 
