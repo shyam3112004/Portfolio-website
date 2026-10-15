@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentication — Shyam Kumar S Portfolio</title>
+  <meta name="description" content="Sign in, register, or authenticate via Google OAuth for Shyam Kumar S Portfolio platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+
+  <!-- Inline pre-render theme restoration: strictly default to white unless dark is explicitly stored -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('portfolio_theme');
+        if (saved === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="auth-page">
+
+  <header class="header">
+    <a href="/" class="logo">SK.</a>
+    <div class="header-actions">
+      <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+      <a href="/" class="resume-btn">&larr; Back to Portfolio</a>
+    </div>
+  </header>
+
+  <main class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-badge">Authentication Portal</div>
+        <h1 class="auth-title" id="page-auth-title">Sign In</h1>
+        <p class="auth-subtitle" id="page-auth-subtitle">Enter your credentials or use Google OAuth</p>
+      </div>
+
+      <!-- Continue with Google (Gmail / Social Login / SSO) -->
+      <div class="auth-social-wrap">
+        <button type="button" id="btn-page-google" class="btn-google">
+          <svg class="google-icon" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span>Continue with Google (Gmail)</span>
+        </button>
+      </div>
+
+      <div class="auth-divider">
+        <span>or continue with email</span>
+      </div>
+
+      <div id="page-error-banner" class="auth-error" style="display: none;"></div>
+
+      <!-- 1. Sign In / Authentication Form -->
+      <form id="page-form-login" class="auth-form active">
+        <div class="form-group">
+          <label for="page-login-email">Email Address</label>
+          <input type="email" id="page-login-email" placeholder="name@domain.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <div class="label-row">
+            <label for="page-login-password">Password</label>
+            <button type="button" id="page-link-forgot" class="text-btn">Forgot password?</button>
+          </div>
+          <input type="password" id="page-login-password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-auth-submit">Sign In (Authenticate)</button>
+        <div class="auth-switch">
+          Don't have an account? <button type="button" id="page-to-signup" class="text-btn strong">Sign up (Register)</button>
+        </div>
+      </form>
+
+      <!-- 2. Sign Up (User Registration) Form -->
+      <form id="page-form-signup" class="auth-form" style="display: none;">
+        <div class="form-group">
+          <label for="page-signup-name">Full Name</label>
+          <input type="text" id="page-signup-name" placeholder="Shyam Kumar S" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="page-signup-email">Email Address</label>
+          <input type="email" id="page-signup-email" placeholder="name@domain.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="page-signup-password">Password</label>
+          <input type="password" id="page-signup-password" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn-auth-submit">Sign Up (Register)</button>
+        <div class="auth-switch">
+          Already registered? <button type="button" id="page-to-login" class="text-btn strong">Sign In</button>
+        </div>
+      </form>
+
+      <!-- 3. Password Reset Form (Transactional Email) -->
+      <form id="page-form-reset" class="auth-form" style="display: none;">
+        <p class="auth-form-desc">Enter your email address and we'll dispatch a transactional password reset email with recovery instructions.</p>
+        <div class="form-group">
+          <label for="page-reset-email">Email Address</label>
+          <input type="email" id="page-reset-email" placeholder="name@domain.com" required autocomplete="email">
+        </div>
+        <button type="submit" class="btn-auth-submit">Send Reset Email</button>
+        <div class="auth-switch">
+          Remembered your password? <button type="button" id="page-reset-back" class="text-btn strong">Back to Sign In</button>
+        </div>
+      </form>
+
+      <!-- 4. Email Verification Screen (Transactional Email) -->
+      <div id="page-view-verify" class="auth-form" style="display: none; text-align: center;">
+        <div class="verify-icon-wrap">✉</div>
+        <h2 style="margin-bottom: 8px; font-family: var(--font-display);">Verify Your Email</h2>
+        <p style="color: var(--fg-muted); font-size: 0.9375rem; line-height: 1.6; margin-bottom: 24px;">
+          We sent an automated email verification link to <strong id="page-verify-email"></strong>. Please check your inbox or spam folder.
+        </p>
+        <button type="button" id="btn-page-resend" class="btn-secondary-full">Resend Verification Email</button>
+        <button type="button" id="btn-page-simulate-verify" class="btn-auth-submit" style="margin-top: 10px;">Simulate Verified Click ✓</button>
+        <div class="auth-switch" style="margin-top: 16px;">
+          <a href="/" class="text-btn">Return to Portfolio Home</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- OAuth Popup Callback Screen (displayed only inside the centered OAuth popup) -->
+  <div id="oauth-popup-callback" class="oauth-popup-callback-wrap" aria-live="polite">
+    <div class="oauth-popup-card">
+      <svg class="google-icon-large" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/>
+        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+      </svg>
+      <div id="popup-status-spinner" class="oauth-popup-spinner"></div>
+      <h2 id="popup-status-title" class="oauth-popup-title">Completing Google Sign-In</h2>
+      <p id="popup-status-desc" class="oauth-popup-sub">Securely establishing your Supabase session…</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initTheme } from '/src/theme.js';
+    import { supabase, isSupabaseConfigured } from '/src/supabaseClient.js';
+    import { 
+      login, 
+      signUp, 
+      loginWithGoogle, 
+      sendPasswordResetEmail, 
+      sendVerificationEmail,
+      markEmailVerified,
+      getCurrentUser,
+      syncSupabaseUser,
+      isAdminUser,
+      ADMIN_EMAIL,
+      showAuthToast 
+    } from '/src/auth.js';
+
+    initTheme();
+
+    const isPopup = Boolean(window.opener && window.opener !== window);
+    if (isPopup) {
+      document.body.classList.add('in-popup');
+    }
+
+    const formLogin = document.getElementById('page-form-login');
+    const formSignup = document.getElementById('page-form-signup');
+    const formReset = document.getElementById('page-form-reset');
+    const viewVerify = document.getElementById('page-view-verify');
+    const titleEl = document.getElementById('page-auth-title');
+    const subtitleEl = document.getElementById('page-auth-subtitle');
+    const errBanner = document.getElementById('page-error-banner');
+
+    const OAUTH_POPUP_MESSAGE = 'supabase:google-oauth-callback';
+    const popupTitle = document.getElementById('popup-status-title');
+    const popupDesc = document.getElementById('popup-status-desc');
+    const popupSpinner = document.getElementById('popup-status-spinner');
+    let callbackHandled = false;
+
+    function postToOpener(payload) {
+      if (callbackHandled) return;
+      callbackHandled = true;
+      try {
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage(payload, window.location.origin);
+        }
+      } catch (e) {
+        console.error('Failed to postMessage to opener:', e);
+      }
+    }
+
+    function handleCallbackSuccess(session) {
+      if (callbackHandled) return;
+      const user = syncSupabaseUser(session.user);
+      if (isPopup) {
+        if (popupTitle) popupTitle.textContent = 'Signed In Successfully';
+        if (popupDesc) popupDesc.textContent = 'Returning to portfolio…';
+        if (popupSpinner) popupSpinner.style.display = 'none';
+        postToOpener({
+          type: OAUTH_POPUP_MESSAGE,
+          status: 'success',
+          session: {
+            access_token: session.access_token,
+            refresh_token: session.refresh_token
+          }
+        });
+        setTimeout(() => {
+          try { window.close(); } catch (e) {}
+        }, 350);
+      } else {
+        showAuthToast(`Authenticated with Google as ${user.email} (SSO)`, 'success');
+        redirectAfterAuth(user);
+      }
+    }
+
+    function handleCallbackError(errorMessage) {
+      if (callbackHandled) return;
+      if (isPopup) {
+        if (popupTitle) popupTitle.textContent = 'Sign-In Failed';
+        if (popupDesc) {
+          popupDesc.textContent = errorMessage;
+          popupDesc.classList.add('error');
+        }
+        if (popupSpinner) popupSpinner.style.display = 'none';
+        postToOpener({
+          type: OAUTH_POPUP_MESSAGE,
+          status: 'error',
+          message: errorMessage
+        });
+        setTimeout(() => {
+          try { window.close(); } catch (e) {}
+        }, 2200);
+      } else {
+        errBanner.textContent = errorMessage;
+        errBanner.style.display = 'block';
+        showAuthToast(errorMessage, 'error');
+      }
+    }
+
+    function setTab(tab) {
+      errBanner.style.display = 'none';
+      formLogin.style.display = 'none';
+      formSignup.style.display = 'none';
+      formReset.style.display = 'none';
+      viewVerify.style.display = 'none';
+
+      if (tab === 'login') {
+        formLogin.style.display = 'flex';
+        titleEl.textContent = 'Sign In';
+        subtitleEl.textContent = 'Enter your credentials or use Google OAuth';
+      } else if (tab === 'signup') {
+        formSignup.style.display = 'flex';
+        titleEl.textContent = 'User Registration';
+        subtitleEl.textContent = 'Create a new account with email or Google';
+      } else if (tab === 'reset') {
+        formReset.style.display = 'flex';
+        titleEl.textContent = 'Reset Password';
+        subtitleEl.textContent = 'We will send a transactional password reset email';
+      } else if (tab === 'verify') {
+        viewVerify.style.display = 'block';
+        titleEl.textContent = 'Verify Email';
+        subtitleEl.textContent = 'Email verification link dispatched';
+      }
+    }
+
+    document.getElementById('page-to-signup').addEventListener('click', () => setTab('signup'));
+    document.getElementById('page-to-login').addEventListener('click', () => setTab('login'));
+    document.getElementById('page-link-forgot').addEventListener('click', () => setTab('reset'));
+    document.getElementById('page-reset-back').addEventListener('click', () => setTab('login'));
+
+    // Check URL parameters for tab (e.g. /auth.html?tab=signup)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('tab') === 'signup') setTab('signup');
+    if (params.get('tab') === 'reset') setTab('reset');
+
+    // Helper: Redirect after successful authentication
+    function redirectAfterAuth(user) {
+      const redirectParam = params.get('redirect') || (isAdminUser(user) ? '/admin.html' : '/');
+      setTimeout(() => {
+        window.location.href = redirectParam;
+      }, 800);
+    }
+
+    // Check for Supabase OAuth URL hash errors or callback state
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const rawError = params.get('error_description') || hashParams.get('error_description') || params.get('error') || hashParams.get('error');
+    if (rawError) {
+      handleCallbackError(decodeURIComponent(rawError));
+    }
+
+    // Listen for authentication state (covers Supabase OAuth callback resolution & persistence)
+    if (isSupabaseConfigured() && supabase) {
+      supabase.auth.onAuthStateChange((event, session) => {
+        if (session?.user && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED')) {
+          handleCallbackSuccess(session);
+        }
+      });
+
+      supabase.auth.getSession().then(({ data: { session }, error }) => {
+        if (error) {
+          handleCallbackError(error.message);
+        } else if (session?.user) {
+          handleCallbackSuccess(session);
+        }
+      }).catch((err) => {
+        handleCallbackError(err?.message || 'Failed to retrieve Supabase session.');
+      });
+    }
+
+    if (isPopup) {
+      setTimeout(() => {
+        if (!callbackHandled) {
+          handleCallbackError('Google sign-in timed out or could not be completed.');
+        }
+      }, 60000);
+    } else {
+      const currentUser = getCurrentUser();
+      if (currentUser && params.get('redirect')) {
+        redirectAfterAuth(currentUser);
+      }
+    }
+
+    // Submit Login
+    formLogin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errBanner.style.display = 'none';
+      try {
+        const email = document.getElementById('page-login-email').value;
+        const password = document.getElementById('page-login-password').value;
+        const user = await login({ email, password });
+        showAuthToast('Signed in successfully! Redirecting...', 'success');
+        redirectAfterAuth(user);
+      } catch (err) {
+        errBanner.textContent = err.message;
+        errBanner.style.display = 'block';
+      }
+    });
+
+    // Submit Signup
+    formSignup.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errBanner.style.display = 'none';
+      try {
+        const name = document.getElementById('page-signup-name').value;
+        const email = document.getElementById('page-signup-email').value;
+        const password = document.getElementById('page-signup-password').value;
+        const user = await signUp({ name, email, password });
+        document.getElementById('page-verify-email').textContent = user.email;
+        setTab('verify');
+      } catch (err) {
+        errBanner.textContent = err.message;
+        errBanner.style.display = 'block';
+      }
+    });
+
+    // Submit Reset
+    formReset.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errBanner.style.display = 'none';
+      try {
+        const email = document.getElementById('page-reset-email').value;
+        await sendPasswordResetEmail(email);
+        setTimeout(() => setTab('login'), 2200);
+      } catch (err) {
+        errBanner.textContent = err.message;
+        errBanner.style.display = 'block';
+      }
+    });
+
+    // Google Auth
+    const btnPageGoogle = document.getElementById('btn-page-google');
+    btnPageGoogle.addEventListener('click', async () => {
+      errBanner.style.display = 'none';
+      btnPageGoogle.classList.add('loading');
+      btnPageGoogle.disabled = true;
+      const originalLabel = btnPageGoogle.querySelector('span')?.textContent;
+      if (btnPageGoogle.querySelector('span')) {
+        btnPageGoogle.querySelector('span').textContent = 'Waiting for Google…';
+      }
+      try {
+        const user = await loginWithGoogle();
+        if (user) {
+          showAuthToast(`Authenticated with Google as ${user.email} (SSO)`, 'success');
+          redirectAfterAuth(user);
+        } else {
+          showAuthToast('Redirecting to Google…', 'info');
+        }
+      } catch (err) {
+        errBanner.textContent = err.message || 'Google sign-in could not be completed.';
+        errBanner.style.display = 'block';
+      } finally {
+        btnPageGoogle.classList.remove('loading');
+        btnPageGoogle.disabled = false;
+        if (btnPageGoogle.querySelector('span') && originalLabel) {
+          btnPageGoogle.querySelector('span').textContent = originalLabel;
+        }
+      }
+    });
+
+    // Resend and simulate verification
+    document.getElementById('btn-page-resend').addEventListener('click', () => {
+      const user = getCurrentUser();
+      if (user) sendVerificationEmail(user.email);
+    });
+
+    document.getElementById('btn-page-simulate-verify').addEventListener('click', () => {
+      const user = getCurrentUser();
+      if (user) {
+        markEmailVerified(user.email);
+        setTimeout(() => window.location.href = '/', 1000);
+      }
+    });
+  </script>
+</body>
+</html>

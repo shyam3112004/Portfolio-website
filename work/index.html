@@ -32,6 +32,19 @@
     .work-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 16px; letter-spacing: -0.02em; }
     .work-desc { font-size: 1.125rem; color: var(--fg-muted); max-width: 640px; }
   </style>
+  <!-- Instant theme restoration before render (defaults strictly to white) -->
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem('portfolio_theme');
+        if (saved === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <!-- Header -->
@@ -41,9 +54,15 @@
       <ul class="nav-links">
         <li><a href="/#work" class="nav-link">&larr; Portfolio Home</a></li>
         <li><a href="/#skills" class="nav-link">Skills</a></li>
-        <li><a href="/#contact" class="nav-link">Contact</a></li>
-        <li><a href="/admin.html" class="nav-link" style="font-size:0.8125rem; opacity:0.8;">Admin</a></li>
+        <li><a href="/#experience" class="nav-link">Experience</a></li>
+        <li id="nav-admin-li" style="display: none;"><a href="/admin.html" class="nav-link" style="font-size:0.8125rem; opacity:0.8;">Admin</a></li>
         <li><a href="/resume.pdf" target="_blank" class="resume-btn">Resume</a></li>
+        <li>
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme" title="Switch Dark / White theme">
+            <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+        </li>
       </ul>
     </nav>
   </header>
@@ -68,6 +87,9 @@
   <script type="module">
     import { loadContent } from '/src/contentLoader.js';
     import { initProjects } from '/src/projects.js';
+    import { initTheme } from '/src/theme.js';
+
+    initTheme();
 
     async function run() {
       try {

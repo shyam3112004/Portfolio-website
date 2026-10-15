@@ -11,6 +11,7 @@
     :root {
       --bg: #F2F2F0;
       --surface: #FFFFFF;
+      --surface-alt: #F8F8F6;
       --fg: #0B0B0C;
       --fg-muted: #5F6368;
       --line: #E2E2DF;
@@ -21,6 +22,20 @@
       --font-display: 'Space Grotesk', -apple-system, sans-serif;
       --font-body: 'Inter', -apple-system, sans-serif;
     }
+    [data-theme='dark'] {
+      --bg: #0c0d10;
+      --surface: #14161c;
+      --surface-alt: #1a1d24;
+      --fg: #f5f6f8;
+      --fg-muted: #9ca3af;
+      --line: #262933;
+      --accent: #4f6eff;
+      --accent-hover: #3b5cff;
+      --danger: #ea4335;
+      --success: #34a853;
+    }
+    [data-theme='dark'] .icon-sun { display: block !important; }
+    [data-theme='dark'] .icon-moon { display: none !important; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: var(--font-body);
@@ -144,7 +159,7 @@
       padding: 12px 14px;
       border-radius: 8px;
       border: 1px solid var(--line);
-      background: #FBFBFA;
+      background: var(--surface-alt);
       font-family: inherit;
       font-size: 0.9375rem;
       color: var(--fg);
@@ -152,7 +167,7 @@
     .form-input:focus, .form-textarea:focus {
       outline: none;
       border-color: var(--accent);
-      background: #fff;
+      background: var(--surface);
     }
     .form-textarea { resize: vertical; min-height: 80px; }
 
@@ -163,10 +178,10 @@
       padding: 24px;
       text-align: center;
       cursor: pointer;
-      background: #F9F9F8;
+      background: var(--surface-alt);
       transition: 0.2s ease;
     }
-    .upload-box:hover { border-color: var(--accent); background: #fff; }
+    .upload-box:hover { border-color: var(--accent); background: var(--surface); }
     .preview-thumb {
       max-height: 140px;
       border-radius: 8px;
@@ -185,7 +200,7 @@
       border-radius: 12px;
       margin-bottom: 12px;
       gap: 16px;
-      background: #FAFAFA;
+      background: var(--surface-alt);
     }
     .project-row-info {
       display: flex;
@@ -198,7 +213,7 @@
       height: 48px;
       object-fit: cover;
       border-radius: 6px;
-      background: #EAEAE8;
+      background: var(--line);
     }
 
     /* Skills Group */
@@ -207,7 +222,7 @@
       border-radius: 12px;
       padding: 20px;
       margin-bottom: 20px;
-      background: #FAFAFA;
+      background: var(--surface-alt);
     }
     .skill-tags-wrap {
       display: flex;
@@ -255,6 +270,19 @@
     }
     #toast.show { opacity: 1; transform: translateY(0); }
   </style>
+  <!-- Instant theme restoration before render (defaults strictly to white) -->
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem('portfolio_theme');
+        if (saved === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <div class="admin-container">
@@ -264,6 +292,10 @@
         <p style="color: var(--fg-muted); font-size: 0.9375rem;">Manage finished projects and edit overall skills</p>
       </div>
       <div class="btn-group">
+        <button id="theme-toggle" class="btn btn-secondary" type="button" aria-label="Toggle color theme" title="Switch Dark / White theme" style="padding: 9px; width: 38px; height: 38px; justify-content: center;">
+          <svg class="icon-moon" style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; display: none;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
         <a href="/" class="btn btn-secondary">&larr; Back to Portfolio</a>
         <button type="button" class="btn btn-primary" onclick="saveAllData()">Save &amp; Publish</button>
         <button type="button" class="btn btn-secondary" onclick="exportJson()">Download JSON</button>
@@ -294,9 +326,9 @@
               <label class="form-label">Project Summary *</label>
               <textarea id="proj-summary" class="form-textarea" placeholder="Sub-millisecond market monitoring terminal with WebSockets and custom WebGL charting." required></textarea>
             </div>
-            <div class="form-group full">
-              <label class="form-label">Tech Tags (comma separated) *</label>
-              <input type="text" id="proj-tags" class="form-input" placeholder="React, TypeScript, WebGL, Node.js" required>
+            <div class="form-group">
+              <label class="form-label" for="proj-tags">Website Category / Type (comma separated)</label>
+              <input type="text" id="proj-tags" class="form-input" placeholder="Web Applications, SaaS Platforms, E-Commerce Websites" required>
             </div>
             <div class="form-group full">
               <label class="form-label">Project Cover Image *</label>
@@ -352,6 +384,33 @@
 
   <script type="module">
     import { loadContent, saveLocalContent, clearLocalContent } from '/src/contentLoader.js';
+    import { getCurrentUser, isAdminUser, ADMIN_EMAIL, initSupabaseAuthListener } from '/src/auth.js';
+
+    initSupabaseAuthListener();
+
+    // Access Guard: only 3112004shyam@gmail.com
+    const currentUser = getCurrentUser();
+    if (!currentUser || !isAdminUser(currentUser)) {
+      document.body.innerHTML = `
+        <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; font-family: var(--font-body); background: var(--bg); color: var(--fg);">
+          <div style="max-width: 440px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 40px 32px; box-shadow: 0 16px 40px rgba(0,0,0,0.12);">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(217,48,37,0.1); color: var(--danger, #d93025); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 16px;">
+              &#9888;
+            </div>
+            <h1 style="font-family: var(--font-display, 'Syne', sans-serif); font-size: 1.5rem; margin-bottom: 8px;">Admin Access Restricted</h1>
+            <p style="color: var(--fg-muted); font-size: 0.875rem; line-height: 1.6; margin-bottom: 20px;">
+              This portal is strictly reserved for administrator <strong>${ADMIN_EMAIL}</strong>. You are currently not signed in as the authorized administrator.
+            </p>
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+              <a href="/auth.html?redirect=/admin.html" style="padding: 10px 20px; border-radius: 999px; background: var(--fg); color: var(--bg); text-decoration: none; font-size: 0.875rem; font-weight: 600;">Sign In with Admin Gmail</a>
+              <a href="/" style="padding: 10px 20px; border-radius: 999px; border: 1px solid var(--line); color: var(--fg); text-decoration: none; font-size: 0.875rem; font-weight: 500;">Return Home</a>
+            </div>
+          </div>
+        </div>
+      `;
+      throw new Error('Access Denied: Admin privileges required.');
+    }
+
     let globalConfig = null;
     let uploadedCoverDataUrl = '';
 
@@ -572,6 +631,21 @@
       toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // Theme toggle setup
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const next = isDark ? 'light' : 'dark';
+        localStorage.setItem('portfolio_theme', next);
+        if (next === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      });
     }
 
     init();
