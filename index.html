@@ -83,7 +83,8 @@
     <div class="header-inner">
       <a href="#" class="logo">SHYAM KUMAR S</a>
 
-      <nav class="nav-right" id="main-nav">
+      <!-- Desktop Navigation (visible on laptop/desktop) -->
+      <nav class="nav-desktop" id="main-nav">
         <ul class="nav-links">
           <li><a href="#work" class="nav-link">Work</a></li>
           <li><a href="#projects" class="nav-link">Projects</a></li>
@@ -101,8 +102,39 @@
           </li>
         </ul>
       </nav>
+
+      <!-- Mobile Right Controls: Theme Toggle & 3-Line Hamburger Menu -->
+      <div class="mobile-nav-actions">
+        <button id="mobile-theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme" title="Switch Dark / White theme">
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button id="mobile-nav-toggle" class="mobile-nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
     </div>
   </header>
+
+  <!-- Mobile Slide-out Drawer with ALL tabs -->
+  <aside class="nav-drawer" id="main-nav-drawer" aria-label="Mobile Navigation">
+    <div class="drawer-header">
+      <span class="drawer-title">Navigation</span>
+      <button id="drawer-close-btn" class="drawer-close-btn" type="button" aria-label="Close navigation">&times;</button>
+    </div>
+    <ul class="drawer-links">
+      <li><a href="#work" class="drawer-link">Work</a></li>
+      <li><a href="#projects" class="drawer-link">Projects</a></li>
+      <li><a href="#skills" class="drawer-link">Skills</a></li>
+      <li><a href="#experience" class="drawer-link">Experience</a></li>
+      <li><a href="#contact" class="drawer-link">Contact</a></li>
+      <li id="drawer-nav-admin-li" style="display: none;"><a href="/admin.html" class="drawer-link drawer-admin-link" title="Admin Dashboard">Admin Dashboard</a></li>
+      <li class="drawer-resume-wrap"><a href="/resume.pdf" target="_blank" class="resume-btn drawer-resume-btn">Resume (PDF) &nearr;</a></li>
+    </ul>
+  </aside>
+  <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" aria-hidden="true"></div>
 
   <main>
     <!-- Hero Section (Scroll Canvas) -->

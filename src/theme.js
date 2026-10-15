@@ -24,13 +24,14 @@ export function initTheme() {
   const current = getPreferredTheme();
   applyTheme(current);
 
-  // Toggle button handler
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
+  // Toggle button handler (supports both desktop and mobile buttons)
+  const toggleButtons = document.querySelectorAll('.theme-toggle');
+  toggleButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       const next = isDark ? 'light' : 'dark';
       localStorage.setItem(storageKey, next);
       applyTheme(next);
     });
-  }
+  });
 }

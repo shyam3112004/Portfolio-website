@@ -835,6 +835,10 @@ function setupHeaderAuth() {
     if (adminNavLi) {
       adminNavLi.style.display = userIsAdmin ? 'inline-block' : 'none';
     }
+    const drawerAdminNavLi = document.getElementById('drawer-nav-admin-li');
+    if (drawerAdminNavLi) {
+      drawerAdminNavLi.style.display = userIsAdmin ? 'block' : 'none';
+    }
     const footerAdminLink = document.getElementById('footer-admin-link');
     if (footerAdminLink) {
       footerAdminLink.style.display = userIsAdmin ? 'block' : 'none';
