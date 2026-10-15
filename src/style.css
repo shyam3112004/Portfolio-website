@@ -199,6 +199,7 @@ body {
   flex-shrink: 0;
   transition: color var(--transition);
 }
+/* Laptop / Desktop Navigation (width > 900px): All tabs cleanly aligned on the right */
 .nav-desktop,
 .nav-right {
   display: flex;
@@ -208,12 +209,28 @@ body {
   flex-shrink: 1;
 }
 
-/* Mobile navigation elements completely hidden on laptop / desktop */
 .mobile-nav-actions,
 .mobile-nav-toggle,
 .nav-drawer,
 .mobile-nav-backdrop {
-  display: none;
+  display: none !important;
+}
+
+@media (min-width: 901px) {
+  .nav-desktop {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+  }
+  .mobile-nav-actions,
+  .mobile-nav-toggle,
+  .nav-drawer,
+  .mobile-nav-backdrop {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 }
 .nav-links {
   display: flex;
