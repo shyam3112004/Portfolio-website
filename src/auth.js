@@ -878,13 +878,12 @@ function setupHeaderAuth() {
 
     if (navAuthItem) {
       if (!user) {
-        navAuthItem.innerHTML = `
-          <button type="button" id="nav-btn-signin" class="nav-link nav-auth-btn" style="background:none;border:none;cursor:pointer;font-weight:600;padding:0 8px;">
-            Sign In
-          </button>
-        `;
-        document.getElementById('nav-btn-signin')?.addEventListener('click', () => openAuthModal('login'));
+        // Public visitors: Keep navbar clean without a public sign-in button.
+        // Admin access is reserved for 3112004shyam@gmail.com directly via /admin.html or /auth.html
+        navAuthItem.innerHTML = '';
+        navAuthItem.style.display = 'none';
       } else {
+        navAuthItem.style.display = 'inline-flex';
         const firstName = user.name.split(' ')[0];
         navAuthItem.innerHTML = `
           <span class="nav-user-label" style="font-size: 0.8125rem; font-weight: 600; margin-right: 6px; padding: 0 4px;">
