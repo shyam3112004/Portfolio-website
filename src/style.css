@@ -173,11 +173,11 @@ body {
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
 }
 [data-theme='dark'] .header.scrolled {
   background: rgba(18, 18, 18, 0.88);
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
 }
 .header-inner {
   display: flex;
@@ -992,11 +992,11 @@ body {
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--line);
+    border-bottom: none;
   }
   [data-theme='dark'] .header {
     background: rgba(18, 18, 18, 0.94);
-    border-bottom: 1px solid var(--line);
+    border-bottom: none;
   }
   .header-inner {
     display: flex;
